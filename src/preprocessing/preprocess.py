@@ -20,7 +20,7 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 def preprocess_data(data: pd.DataFrame, target_column: str | None = None):
     target_column = target_column or os.getenv("TARGET_COLUMN")
     X = data.drop(columns=[target_column])
-    y = data[target_column]
+    y = data[target_column].map({"Presence": 1, "Absence": 0}).astype("uint8")
 
     numerical_columns = X.select_dtypes(include=["int64", "float64"]).columns
     categorical_columns = X.select_dtypes(
